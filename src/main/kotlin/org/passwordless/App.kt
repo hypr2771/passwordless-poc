@@ -19,7 +19,7 @@ fun main(args: Array<String>) {
     }
 
     // Get a challenge for the given user
-    app.get("/get-challenge/:id") { ctx -> ctx.result(challenge(USER_COLLECTION[ctx.pathParam("id").toInt()])) }
+    app.get("/challenge/:id") { ctx -> ctx.result(challenge(USER_COLLECTION[ctx.pathParam("id").toInt()])) }
 
     // Post a proposal and get authenticated
     app.post("/authenticate/:id") { ctx ->

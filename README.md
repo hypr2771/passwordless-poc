@@ -13,11 +13,11 @@ It is very basic implementation, no database nor JWT tokens are yet implemented 
 #### Registration of the user
 
 1. User generates a *keypair **client-side***
-2. User pushes his username along with his *public key* ([request](#registration-request))
+2. User pushes his username along with his *public key* ([request](#register-request))
 3. Server check preconditions (check if user already exists, public key is indeed a public key,...)
 4. Server generate a *keypair **server-side*** specific to the user
 5. Server stocks both *server-side private key* and *client-side public key* in the user entity
-6. Server returns the *server-side public key* ([response](#registration-response))
+6. Server returns the *server-side public key* ([response](#register-response))
 7. User stocks *username*, *server-side public key* and *client-side key pair* on a secured USB device (using [WebUSB](https://wicg.github.io/webusb/)) or on a web extension (such as LastPass)
 
 #### User authentication
@@ -25,9 +25,9 @@ It is very basic implementation, no database nor JWT tokens are yet implemented 
 1. User requests a *challenge* from the server for a specific username ([request](#challenge-request))
 2. Server computes a *random* (using [true RNG](https://random.org) or pseudo RNG)
 3. Server stocks the generated *random* number along with user entity
-4. Server returns an encrypted version of the *random* number using the user's specific *private key* (aka. *challenge*)  ([response](#challenge-response))
-5. User decrypts the *challenge* using the *server-side public key*
-6. User sends back the *random* number encrypted using his *client-side private key* (aka. *proposal*) ([request](#authenticate-request))
+4. Server returns a signed version of the *random* number using the *server-side* user's specific *private key* (aka. *challenge*)  ([response](#challenge-response))
+5. User verifies the *challenge* using the *server-side public key*
+6. User sends back the *random* number signed using his *client-side private key* (aka. *proposal*) ([request](#authenticate-request))
 7. Server decrypts the *proposal* and check whether it corresponds to the current *challenge*
 8. Server authenticate the user (using whether JWT, session token,...) and removes the current *random* number from the user entity ([response](#authenticate-response))
 
@@ -62,9 +62,9 @@ The idea is the same than USB stick, but we may have the flexibility of a web ba
 
 ## Flows
 
-### <a name="registration"></a> `/registration`
+### <a name="register"></a> `/register`
 
-#### <a name="registration-request"></a> Request
+#### <a name="register-request"></a> Request
 ```
 {
     "username": "toto",
@@ -73,7 +73,7 @@ The idea is the same than USB stick, but we may have the flexibility of a web ba
 
 ```
 
-#### <a name="registration-response"></a> Response
+#### <a name="register-response"></a> Response
 
 ##### `200 Ok`
 ```
@@ -83,15 +83,11 @@ The idea is the same than USB stick, but we may have the flexibility of a web ba
 
 ```
 
-### <a name="challenge"></a> `/challenge`
+### <a name="challenge"></a> `/challenge/:id`
 
 #### <a name="challenge-request"></a> Request
-```
-{
-    "username": "toto"
-}
 
-```
+Simple `GET` request
 
 #### <a name="challenge-response"></a> Response
 
@@ -103,12 +99,11 @@ The idea is the same than USB stick, but we may have the flexibility of a web ba
 
 ```
 
-### <a name="authenticate"></a> `/authenticate`
+### <a name="authenticate"></a> `/authenticate/:id`
 
 #### <a name="authenticate-request"></a> Request
 ```
 {
-    "username": "toto",
     "proposal": "b49Tw3ZOB+ztsUNJmltj0fUtBIufoWFBGAzXX3e/CTmhjTlxlrNeVogqVlDaLY1VuxfwJAdHYOTEtJs3MOps3A=="
 }
 
