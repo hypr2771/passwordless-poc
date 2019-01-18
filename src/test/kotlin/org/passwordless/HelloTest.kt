@@ -3,10 +3,7 @@ package org.passwordless
 import org.passwordless.constant.USER_COLLECTION
 import java.math.BigInteger
 import javax.crypto.BadPaddingException
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
+import kotlin.test.*
 
 
 class HelloTest {
@@ -135,6 +132,7 @@ class HelloTest {
     }
 
     @Test
+    @Ignore("Used for client side simulation")
     fun clientSideSimulationDecryptAndEncrypt() {
         val decrypted = decryptText(
             "Rl3W9J0yZDLua7e3Gtw70/XfbtRdllzciTxpuGIFEvMZoVzwziHi+/45qNS81RMFbfoeFeHMzQugrJICTr4z8g==",
