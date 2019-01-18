@@ -12,17 +12,7 @@ fun main(args: Array<String>) {
 
     app.post("/register") { ctx ->
         val user = ctx.body<UserDto>()
-
-        val userSpecificKeyPair = genKeyPair()
-
-        val newUser = user.toUser(USER_COLLECTION.size.toBigInteger())
-            .copy(serverSidePrivateKey = asString(userSpecificKeyPair.private),
-                serverSidePublicKey = asString(userSpecificKeyPair.public))
-
-        val newList = USER_COLLECTION.toMutableList()
-        newList.add(USER_COLLECTION.size, newUser)
-
-        USER_COLLECTION = newList
+        register(user)
     }
 
     app.get("/get-challenge/:id") { ctx -> ctx.result(challenge(USER_COLLECTION[ctx.pathParam("id").toInt()])) }
@@ -33,6 +23,21 @@ fun main(args: Array<String>) {
 
         (decryptText(proposal, user.publicKey) == user.challenge).toString()
     }
+}
+
+fun register(user: UserDto) {
+    val userSpecificKeyPair = genKeyPair()
+
+    val newUser = user.toUser(USER_COLLECTION.size.toBigInteger())
+        .copy(
+            serverSidePrivateKey = asString(userSpecificKeyPair.private),
+            serverSidePublicKey = asString(userSpecificKeyPair.public)
+        )
+
+    val newList = USER_COLLECTION.toMutableList()
+    newList.add(USER_COLLECTION.size, newUser)
+
+    USER_COLLECTION = newList
 }
 
 fun challenge(user: User): String {

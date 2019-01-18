@@ -1,6 +1,5 @@
 package org.passwordless
 
-import org.passwordless.constant.PUBLIC_KEY
 import org.passwordless.constant.USER_COLLECTION
 import java.math.BigInteger
 import javax.crypto.BadPaddingException
@@ -36,7 +35,7 @@ class HelloTest {
         val keyPair = genKeyPair()
         val keyPairServerSide = genKeyPair()
         val user = User(
-            BigInteger.ONE,
+            BigInteger.ZERO,
             keyPair.public,
             keyPairServerSide.private,
             "",
@@ -46,6 +45,9 @@ class HelloTest {
             keyPairServerSide.public
         )
 
+        // Simulate user registration in database
+        register(UserDto(user.publicKey, user.privateKey))
+
         // Generate a challenge server side for the user
         val challenge = challenge(user)
 
@@ -53,7 +55,7 @@ class HelloTest {
         val challengedUser = USER_COLLECTION[0]
 
         // Client decrypt the challenge from the server
-        val challengeClientSide = decryptText(challenge, PUBLIC_KEY)
+        val challengeClientSide = decryptText(challenge, user.serverSidePublicKey)
 
         // Client encrypt its challenge answer
         val encryptedChallengeClientSide = encryptText(challengeClientSide, user.privateKey)
@@ -80,7 +82,7 @@ class HelloTest {
         val keyPair = genKeyPair()
         val keyPairServerSide = genKeyPair()
         val user = User(
-            BigInteger.ONE,
+            BigInteger.ZERO,
             keyPair.public,
             keyPairServerSide.private,
             "",
@@ -90,11 +92,17 @@ class HelloTest {
             keyPairServerSide.public
         )
 
+        // Simulate user registration in database
+        register(UserDto(user.publicKey, user.privateKey))
+
         // Generate a challenge server side for the user
         val challenge = challenge(user)
 
+        // Simulate user registration in database
+        val challengedUser = USER_COLLECTION[0]
+
         // Client decrypt the challenge from the server
-        val challengeClientSide = decryptText(challenge, PUBLIC_KEY)
+        val challengeClientSide = decryptText(challenge, challengedUser.serverSidePublicKey)
 
         // The bad guy can also get the challenge,
         val badGuyKeyPair = genKeyPair()
