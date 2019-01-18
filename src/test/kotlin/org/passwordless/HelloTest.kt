@@ -17,9 +17,6 @@ class HelloTest {
     fun generateKeyPair() {
         val keyPair = genKeyPair()
 
-        println(asString(keyPair.public))
-        println(asString(keyPair.private))
-
         val encrypted = encryptText("TEST", keyPair.private)
         val decrypted = decryptText(encrypted, keyPair.public)
 
