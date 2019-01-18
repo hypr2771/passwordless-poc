@@ -2,7 +2,7 @@
 
 Passwordless is a prototype of a possible use of asymmetric cryptography in the web authentication context.
 
-It is needed to create an encrypted USB stick containing a local database. 
+It requires user to stock password in some sort of database, whether local (encrypted USB stick with plain text DB) or online (such as LastPass).
 
 The goal is to avoid having passwords transiting over the network, and leaving only public messages transit.
 
