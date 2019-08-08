@@ -45,7 +45,8 @@ Stocking password through USB can be achieved through various methods :
 When using the web app, JavaScript can access to USB devices.
 
 Therefore, it is possible to stock the following login information object on it, encrypted with a master password.
-```
+
+```json
 {
     "url": "",
     "username": "",
@@ -65,7 +66,8 @@ The idea is the same than USB stick, but we may have the flexibility of a web ba
 ### <a name="register"></a> `/register`
 
 #### <a name="register-request"></a> Request
-```
+
+```json
 {
     "username": "toto",
     "clientSidePublicKey": "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJJQ3ahZbtYrtbhzSFc2vDB8z8egbMFppN1V2QtAjTjpcmXoPpH+3c48GSFpHtummTxXacJ8KIuDx7H19DMaEYMCAwEAAQ=="
@@ -76,7 +78,8 @@ The idea is the same than USB stick, but we may have the flexibility of a web ba
 #### <a name="register-response"></a> Response
 
 ##### `200 Ok`
-```
+
+```json
 {
     "serverSidePublicKey": "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKkOup/LJq0PhhNUYhlZ5dqVa7+OUzTFAbhbehwK+xFhICtv8kfuyHsbUBa69WnoPFGGkeM9j3Q3QUcQn9AriAECAwEAAQ=="
 }
@@ -92,7 +95,8 @@ Simple `GET` request
 #### <a name="challenge-response"></a> Response
 
 ##### `200 Ok`
-```
+
+```json
 {
     "challenge": "TMfAneTMmUWer5AWomzUS+sDEN++1hW//uzaixwXG3WzBV+CGn8RQjPhjDqWi9O0pVfOygN/s9UFJTZUQxdEiw=="
 }
@@ -102,7 +106,8 @@ Simple `GET` request
 ### <a name="authenticate"></a> `/authenticate/:id`
 
 #### <a name="authenticate-request"></a> Request
-```
+
+```json
 {
     "proposal": "b49Tw3ZOB+ztsUNJmltj0fUtBIufoWFBGAzXX3e/CTmhjTlxlrNeVogqVlDaLY1VuxfwJAdHYOTEtJs3MOps3A=="
 }
@@ -112,7 +117,8 @@ Simple `GET` request
 #### <a name="authenticate-response"></a> Response
 
 ##### `200 Ok`
-```
+
+```json
 {
     "jwtToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6InRvdG8iLCJqdGkiOiIyYzVlZjk1NC01YTMxLTQ5MjgtYTY0ZS1hNjk4ZDZkZTcxYTgiLCJpYXQiOjE1NDc4MDU4NjEsImV4cCI6MTU0NzgwOTUyNn0.UPH5PeGrwnuW3UO41iaESQgQ2Bd9D4xPePuSTEhpYsY"
 }
